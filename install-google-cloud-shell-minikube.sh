@@ -35,7 +35,10 @@ kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-client-secure
 echo Getting certificates. Storing them in cockroach folder
 kubectl exec -n "cockroachdb" "cockroachdb-client-secure" -- tar cf - "/cockroach/cockroach-certs" | tar xf - 
 
+echo Creating User me with password me:
+kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public -e "CREATE USER me WITH PASSWORD 'me';"
+
 echo Access sql shell in another shell:
-echo kubectl exec -n "cockroachdb" -it "cockroachdb-client-secure" sh
+echo kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public
 
 kubectl -n $NAMESPACE port-forward svc/cockroachdb 8080:18080

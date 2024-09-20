@@ -44,7 +44,7 @@ sleep 6
 ./cockroach/cockroach init --certs-dir=certs --host=localhost:27257
 
 sleep 2
-# Create user
+# Create user me with password me
 ./cockroach/cockroach sql --certs-dir=certs --host=localhost:26257 -e "CREATE USER me WITH PASSWORD 'me';"
 
 # Print Scale-out command
