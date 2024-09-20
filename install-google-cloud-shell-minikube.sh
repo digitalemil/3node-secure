@@ -41,4 +41,10 @@ kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --c
 echo Access sql shell in another shell:
 echo kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public
 
+echo Installing Prometheus:
+kubectl create ns monitoring
+kubectl kubectl  apply -n monitoring -f prometheus.yaml
+kubectl wait --for=condition=ready pod -n monitoring prometheus
+
+
 kubectl -n $NAMESPACE port-forward svc/cockroachdb 8080:18080
