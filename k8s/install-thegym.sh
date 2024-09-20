@@ -6,7 +6,6 @@ if [[ -z "${CODE}" ]]; then
 fi
 
 export DATABASE_CONNECTIONSTRING='postgresql://root@cockroachdb-public.cockroachdb:26257/defaultdb?sslmode=verify-full&sslrootcert=/tmp/cert1/ca.crt&sslcert=/tmp/cert2/client.root.crt&sslkey=/tmp/cert3/client.root.key'
-export CODE=
 export NAMESPACE=thegym
 
 kubectl create ns $NAMESPACE
@@ -19,4 +18,4 @@ envsubst < thegym.yaml | kubectl apply -n $NAMESPACE -f -
 
 kubectl wait --for=condition=ready pod -n $NAMESPACE -l component=appserver
 
-nohup kubectl -n $NAMESPACE port-forward deployment/thegym 3000:3000 &
+nohup kubectl -n $NAMESPACE port-forward deployment/thegym 3030:3000 &
