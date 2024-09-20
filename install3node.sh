@@ -1,9 +1,7 @@
 #!/bin/sh
 
 # delete old install
-rm -fr certs my-safe-directory
-rm -fr cockroach
-rm -fr node*
+./cleanup.sh
 
 # mdkir for certificates
 mkdir certs my-safe-directory
