@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [[ -z "${CODE}" ]]; then
-  echo Please verify necessary environment variables a set (CODE).
+  echo Please verify necessary environment variables a set \(CODE\).
   exit -1
 fi
 
@@ -11,11 +11,11 @@ export NAMESPACE=thegym
 
 kubectl create ns $NAMESPACE
 
-kubectl -n lesfleurs create configmap sslkey --from-file ./cockroach/cockroach-certs/client.root.key
-kubectl -n lesfleurs create configmap sslcert --from-file ./cockroach/cockroach-certs/client.root.crt
-kubectl -n lesfleurs create configmap sslrootcert --from-file ./cockroach/cockroach-certs//myk8s/ca.crt
+kubectl -n $NAMESPACE create configmap sslkey --from-file ./cockroach/cockroach-certs/client.root.key
+kubectl -n $NAMESPACE create configmap sslcert --from-file ./cockroach/cockroach-certs/client.root.crt
+kubectl -n $NAMESPACE create configmap sslrootcert --from-file ./cockroach/cockroach-certs/ca.crt
 
-envsubst < lesfleurs.yaml | kubectl apply -n $NAMESPACE -f -
+envsubst < thegym.yaml | kubectl apply -n $NAMESPACE -f -
 
 kubectl wait --for=condition=ready pod -n $NAMESPACE -l component=appserver
 
