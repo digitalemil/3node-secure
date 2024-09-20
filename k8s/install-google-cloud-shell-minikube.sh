@@ -52,4 +52,4 @@ kubectl  rollout status -w deployment -n monitoring prometheus-deployment --time
 
 kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
 
-nohup kubectl port-forward -n cockroachdb svc/cockroachdb 8080:18080 &
+kubectl port-forward -n cockroachdb svc/cockroachdb 18080:8080 
