@@ -13,6 +13,10 @@ kubectl apply -f https://raw.githubusercontent.com/cockroachdb/cockroach-operato
 #Operator
 kubectl apply -f https://raw.githubusercontent.com/cockroachdb/cockroach-operator/master/install/operator.yaml
 
+echo Sleeping 30s...
+sleep 30
+kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator
+kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator
 kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator
 
 #CRDB cluster
@@ -43,8 +47,9 @@ echo kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sq
 
 echo Installing Prometheus:
 kubectl create ns monitoring
-kubectl kubectl  apply -n monitoring -f prometheus.yaml
-kubectl wait --for=condition=ready pod -n monitoring prometheus
+kubectl apply -n monitoring -f prometheus.yaml
+kubectl  rollout status -w deployment -n monitoring prometheus-deployment --timeout=90s 
 
+kubectl -n monitoring port-forward svc/prometheus 9090:9091 &
 
 kubectl -n $NAMESPACE port-forward svc/cockroachdb 8080:18080
