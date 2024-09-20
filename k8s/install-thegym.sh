@@ -18,4 +18,4 @@ envsubst < thegym.yaml | kubectl apply -n $NAMESPACE -f -
 
 kubectl wait --for=condition=ready pod -n $NAMESPACE -l component=appserver
 
-nohup kubectl -n $NAMESPACE port-forward deployment/thegym 3030:3000 &
+kubectl -n $NAMESPACE port-forward deployment/thegym 3030:3000 
