@@ -50,6 +50,6 @@ kubectl create ns monitoring
 kubectl apply -n monitoring -f prometheus.yaml
 kubectl  rollout status -w deployment -n monitoring prometheus-deployment --timeout=90s 
 
-kubectl -n monitoring port-forward svc/prometheus 9090:9091 &
+kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
 
-kubectl -n $NAMESPACE port-forward svc/cockroachdb 8080:18080
+nohup kubectl port-forward -n cockroachdb svc/cockroachdb 8080:18080 &
