@@ -26,7 +26,10 @@ kubectl apply -f cockroachdb.yaml -n cockroachdb
 
 sleep 20
 kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-2
+kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-1
+kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-0
 
+sleep 1
 kubectl annotate -n cockroachdb pods cockroachdb-0 prometheus.io/scrape='true' prometheus.io/path='_status/vars' prometheus.io/port='8080'
 kubectl annotate -n cockroachdb pods cockroachdb-1 prometheus.io/scrape='true' prometheus.io/path='_status/vars' prometheus.io/port='8080'
 kubectl annotate -n cockroachdb pods cockroachdb-2 prometheus.io/scrape='true' prometheus.io/path='_status/vars' prometheus.io/port='8080'
