@@ -51,7 +51,7 @@ sleep 2
 echo
 echo You can access the DB Console on port 18080-18082
 echo 
-echo To add node 4: Open another shell and execute:
+echo To add node 4: Open another shell and execute the following in the same folder:
 echo ./cockroach/cockroach start --certs-dir=certs --store=node4 --listen-addr=:27260 --sql-addr=:26260 --http-addr=:18083 --join=localhost:27257,localhost:27258,localhost:27259
 echo 
 
