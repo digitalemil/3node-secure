@@ -29,13 +29,13 @@ rm cockroach.tgz
 ./cockroach/cockroach cert create-client root --certs-dir=certs --ca-key=my-safe-directory/ca.key
 
 # Start node 1
-./cockroach/cockroach start --certs-dir=certs --store=node1 --listen-addr=:27257 --sql-addr=:26257 --http-addr=:8080 --join=localhost:27257,localhost:27258,localhost:27259 &
+./cockroach/cockroach start --certs-dir=certs --store=node1 --listen-addr=:27257 --sql-addr=:26257 --http-addr=:18080 --join=localhost:27257,localhost:27258,localhost:27259 &
 
 # Start node 2
-./cockroach/cockroach start --certs-dir=certs --store=node2 --listen-addr=:27258 --sql-addr=:26258 --http-addr=:8081 --join=localhost:27257,localhost:27258,localhost:27259 &
+./cockroach/cockroach start --certs-dir=certs --store=node2 --listen-addr=:27258 --sql-addr=:26258 --http-addr=:18081 --join=localhost:27257,localhost:27258,localhost:27259 &
 
 # Start node 3
-./cockroach/cockroach start --certs-dir=certs --store=node3 --listen-addr=:27259 --sql-addr=:26259 --http-addr=:8082 --join=localhost:27257,localhost:27258,localhost:27259 &
+./cockroach/cockroach start --certs-dir=certs --store=node3 --listen-addr=:27259 --sql-addr=:26259 --http-addr=:18082 --join=localhost:27257,localhost:27258,localhost:27259 &
 
 # Init cluster
 sleep 6
@@ -47,10 +47,10 @@ sleep 2
 
 # Print Scale-out command
 echo
-echo You can access the DB Console on port 8080-8082
+echo You can access the DB Console on port 18080-18082
 echo 
 echo To add node 4: Open another shell and execute:
-echo ./cockroach/cockroach start --certs-dir=certs --store=node4 --listen-addr=:27260 --sql-addr=:26260 --http-addr=:8083 --join=localhost:27257,localhost:27258,localhost:27259
+echo ./cockroach/cockroach start --certs-dir=certs --store=node4 --listen-addr=:27260 --sql-addr=:26260 --http-addr=:18083 --join=localhost:27257,localhost:27258,localhost:27259
 echo 
 
 # Open sql shell
