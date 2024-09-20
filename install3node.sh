@@ -15,6 +15,12 @@ if [[ "$UNAME" == "Darwin" ]]; then
 else
     curl -LJO https://binaries.cockroachdb.com/cockroach-v24.2.0.linux-amd64.tgz
     mv cockroach-v24.2.0.linux-amd64.tgz cockroach.tgz
+    # For Google Cloud Shell
+    sudo apt-get update
+    sudo apt-get -y install nginx
+    sudo sudo cp nginx.conf /etc/nginx/nginx.conf
+    sudo nginx start
+    sudo nginx -s reload
 fi
 
 tar xzf cockroach.tgz
