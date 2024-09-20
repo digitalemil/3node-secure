@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thegym
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thegym
+      component: appserver  
+  template:
+    metadata:
+      name: thegym
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '_status/vars'
+        prometheus.io/port: '3000'       
+      labels:
+        app: thegym
+        component: appserver  
+    spec:
+      containers:
+      - name: thegym
+        image: digitalemil/sourdough:thegym-vlatest
+        imagePullPolicy: Always
+        env:
+        - name: CODE
+          value: "$CODE"
+        - name: DATABASE_CONNECTIONSTRING
+          value: "$DATABASE_CONNECTIONSTRING"
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+            - name: sslrootcert
+              mountPath: /tmp/cert1
+            - name: sslcert
+              mountPath: /tmp/cert2
+            - name: sslkey
+              mountPath: /tmp/cert3
+      volumes:
+        - name: sslrootcert
+          configMap:
+            defaultMode: 420
+            name: sslrootcert
+        - name: sslcert
+          configMap:
+            defaultMode: 420
+            name: sslcert
+        - name: sslkey
+          configMap:
+            defaultMode: 420
+            name: sslkey 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: thegym
+spec:
+  selector:
+    app: thegym
+    component: appserver 
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+  sessionAffinity: None
+  type: ClusterIP

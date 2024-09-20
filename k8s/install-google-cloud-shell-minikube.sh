@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo Installing nginx. Access DB console on port 8080 later
-sudo apt-get update; sudo apt-get -y install nginx; sudo sudo cp nginx.conf /etc/nginx/nginx.conf; sudo nginx
+sudo apt-get update; sudo apt-get -y install nginx; sudo sudo cp ../nginx.conf /etc/nginx/nginx.conf; sudo nginx
 
 minikube start --cpus=4 --memory=6G
 
