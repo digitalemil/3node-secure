@@ -1,0 +1,3 @@
+[server]
+domain=${GRAFANA_PUBLICPORT}-${WEBHOST}
+root_url =https://${GRAFANA_PUBLICPORT}-${WEBHOST}:443

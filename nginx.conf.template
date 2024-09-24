@@ -46,11 +46,11 @@ http {
     }
 
     server {
-        listen 0.0.0.0:3333;
+        listen 0.0.0.0:${GRAFANA_PUBLICPORT};
             proxy_set_header x-cloud-trace-context "";
             proxy_set_header grpc-trace-bin "";
             proxy_set_header traceparent "";
-            proxy_set_header Host 3333-${WEB_HOST};
+            proxy_set_header Host ${GRAFANA_PUBLICPORT}-${WEBHOST};
         location / {
             proxy_pass http://grafana/;
         }
@@ -58,7 +58,7 @@ http {
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection $connection_upgrade;
-            proxy_set_header Host 3333-cs-321710573224-default.cs-europe-west1-haha.cloudshell.dev;
+            proxy_set_header Host ${GRAFANA_PUBLICPORT}-${WEBHOST};
             proxy_pass http://grafana;
         }
 

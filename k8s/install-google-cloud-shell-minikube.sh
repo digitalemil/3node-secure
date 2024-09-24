@@ -1,6 +1,11 @@
 #!/bin/sh
+echo Install for Google Cloud Shell
+export GRAFANA_PUBLICPORT=3333
+echo WEB_HOST: $WEB_HOST
 
-echo Installing nginx. Access DB console on port 8080 later
+echo Installing nginx. Access DB console on port 8080. Grafana on port $GRAFANA_PUBLICPORT
+export 
+envsubst < ../nginx.conf.template >../nginx.conf
 sudo apt-get update; sudo apt-get -y install nginx; sudo sudo cp ../nginx.conf /etc/nginx/nginx.conf; sudo nginx
 
 minikube start --cpus=4 --memory=6G
@@ -53,6 +58,11 @@ kubectl create ns monitoring
 kubectl apply -n monitoring -f prometheus.yaml
 kubectl  rollout status -w deployment -n monitoring prometheus-deployment --timeout=90s 
 
+envsubst < grafana.ini.template >./grafana.ini
+kubectl create configmap cloudshell-config --from-file=./grafana.ini  --namespace=monitoring
+kubectl apply -f grafana.yaml --namespace=monitoring
+
 kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
+kubectl port-forward -n monitoring svc/grafana 3030:3000 &
 
 kubectl port-forward -n cockroachdb svc/cockroachdb 18080:8080 
