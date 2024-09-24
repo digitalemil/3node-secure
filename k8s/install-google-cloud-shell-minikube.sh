@@ -53,18 +53,23 @@ kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --c
 echo Access sql shell in another shell:
 echo kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public
 
+echo Installing Loki & Promtail:
+helm repo add grafana  https://grafana.github.io/helm-charts
+helm repo update
+helm install -n monitoring --values loki.yaml loki grafana/loki
+kubectl apply -n monitoring -f promtail.yaml
+
 echo Installing Prometheus:
 kubectl create ns monitoring
 kubectl apply -n monitoring -f prometheus.yaml
 kubectl  rollout status -w deployment -n monitoring prometheus-deployment --timeout=90s 
-
-envsubst < grafana.ini.template >./grafana.ini
-kubectl create configmap cloudshell-config --from-file=./grafana.ini  --namespace=monitoring
-kubectl apply -f grafana.yaml --namespace=monitoring
-
 kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
 
+echo Installing Grafana:
+kubectl apply -f grafana.yaml --namespace=monitoring
 kubectl wait --for=condition=ready pod -n monitoring -l app=grafana
 kubectl port-forward -n monitoring svc/grafana 3030:3000 &
+
+echo Scale: kubectl scale statefulsets -n cockroachdb cockroachdb --replicas=4
 
 kubectl port-forward -n cockroachdb svc/cockroachdb 18080:8080 

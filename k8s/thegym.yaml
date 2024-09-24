@@ -28,6 +28,8 @@ spec:
           value: "$CODE"
         - name: DATABASE_CONNECTIONSTRING
           value: "$DATABASE_CONNECTIONSTRING"
+        - name: LOGTOCONSOLE
+          value: true
         ports:
         - containerPort: 3000
         volumeMounts:
