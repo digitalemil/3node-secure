@@ -64,6 +64,7 @@ kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
 
 echo Installing Grafana:
 kubectl apply -f grafana.yaml --namespace=monitoring
+sleep 30
 kubectl wait --for=condition=ready pod -n monitoring -l app=grafana
 kubectl port-forward -n monitoring svc/grafana 3030:3000 &
 kubectl create configmap -n monitoring grafana-datasources --from-file=datasources.yaml 

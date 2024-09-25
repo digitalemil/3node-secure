@@ -14,6 +14,8 @@ datasources:
     uid: cockroachdb
     url: cockroachdb-public.cockroachdb:26257
     user: me
+    secureJsonData:
+      password: me
     isDefault: false
     jsonData: {"connMaxLifetime":14400,"database":"defaultdb","maxIdleConns":100,"maxIdleConnsAuto":true,"maxOpenConns":100,"sslmode":"require"}
     editable: true
@@ -32,7 +34,7 @@ datasources:
     access: proxy
     orgId: 1
     uid: prometheus
-    url: http://localhost:9091
+    url: "http://prometheus.monitoring:9091"
     basicAuth: false
     isDefault: false
     jsonData: {}
