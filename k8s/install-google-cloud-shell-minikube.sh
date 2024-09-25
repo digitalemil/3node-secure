@@ -59,14 +59,18 @@ kubectl apply -n monitoring -f promtail.yaml
 
 echo Installing Prometheus:
 kubectl apply -n monitoring -f prometheus.yaml
-kubectl rollout status -w deployment -n monitoring prometheus-deployment --timeout=120s 
-kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
 
 echo Installing Grafana:
 kubectl create configmap -n monitoring grafana-datasources --from-file=datasources.yaml 
-kubectl create configmap -n monitoring grafana-dashboards --from-file=dashboards 
+kubectl create configmap -n monitoring grafana-dashboards-definition --from-file=dashboards 
+kubectl apply -n monitoring -f dashboards.yaml
+
 kubectl apply -f grafana.yaml --namespace=monitoring
 sleep 30
+
+kubectl rollout status -w deployment -n monitoring prometheus-deployment --timeout=120s 
+kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
+
 kubectl wait --for=condition=ready pod -n monitoring -l app=grafana --timeout=360s
 
 kubectl port-forward -n monitoring svc/grafana 3030:3000 &
