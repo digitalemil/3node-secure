@@ -78,7 +78,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(requests_slow_raft{job=\"cockroachdb\",cluster=\"$cluster\"})",
+          "expr": "sum(requests_slow_raft{})",
           "interval": "",
           "legendFormat": "Slow Raft Proposals",
           "refId": "A"
@@ -169,7 +169,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(requests_slow_distsender{job=\"cockroachdb\",cluster=\"$cluster\"})",
+          "expr": "sum(requests_slow_distsender{})",
           "interval": "",
           "legendFormat": "Slow DistSender RPCs",
           "queryType": "randomWalk",
@@ -260,7 +260,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(requests_slow_lease{job=\"cockroachdb\",cluster=\"$cluster\"})",
+          "expr": "sum(requests_slow_lease{})",
           "interval": "",
           "legendFormat": "Slow Lease Acquisitions",
           "refId": "A"
@@ -350,7 +350,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(requests_slow_latch{job=\"cockroachdb\",cluster=\"$cluster\"})",
+          "expr": "sum(requests_slow_latch{})",
           "interval": "",
           "legendFormat": "Slow Latch Acquisitions",
           "refId": "A"
@@ -426,7 +426,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "sys_uptime{job=\"cockroachdb\"}",
+        "definition": "sys_uptime{}",
         "hide": 0,
         "includeAll": false,
         "label": "cluster",
@@ -434,7 +434,7 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "sys_uptime{job=\"cockroachdb\"}",
+          "query": "sys_uptime{}",
           "refId": "Prometheus-cluster-Variable-Query"
         },
         "refresh": 1,
@@ -457,7 +457,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(sys_uptime{job=\"cockroachdb\",cluster=\"$cluster\"},instance)",
+        "definition": "label_values(sys_uptime{},instance)",
         "hide": 0,
         "includeAll": true,
         "label": "Node",
@@ -465,7 +465,7 @@
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(sys_uptime{job=\"cockroachdb\",cluster=\"$cluster\"},instance)",
+          "query": "label_values(sys_uptime{},instance)",
           "refId": "Prometheus-node-Variable-Query"
         },
         "refresh": 1,

@@ -78,7 +78,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(changefeed_max_behind_nanos{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(changefeed_max_behind_nanos{}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Max Changefeed Latency",
           "refId": "A"
@@ -168,7 +168,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(changefeed_emitted_bytes{job=\"cockroachdb\",cluster=~\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(changefeed_emitted_bytes{}[$__rate_interval]))",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Emitted Bytes",
@@ -260,7 +260,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(changefeed_emitted_messages{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(changefeed_emitted_messages{}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Messages",
           "refId": "B"
@@ -271,7 +271,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(changefeed_flushes{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(changefeed_flushes{}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Flushes",
           "refId": "A"
@@ -361,7 +361,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(changefeed_emitted_messages{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(changefeed_emitted_messages{}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Message Emit Time",
           "refId": "B"
@@ -372,7 +372,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(changefeed_flush_nanos{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(changefeed_flush_nanos{}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Flush Time",
           "refId": "A"
@@ -462,7 +462,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(jobs_changefeed_resume_retry_error{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(jobs_changefeed_resume_retry_error{}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Retryable Errors",
           "refId": "A"
@@ -538,7 +538,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "sys_uptime{job=\"cockroachdb\"}",
+        "definition": "sys_uptime{}",
         "hide": 0,
         "includeAll": false,
         "label": "Cluster",
@@ -546,7 +546,7 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "sys_uptime{job=\"cockroachdb\"}",
+          "query": "sys_uptime{}",
           "refId": "Prometheus-cluster-Variable-Query"
         },
         "refresh": 1,
@@ -569,7 +569,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(sys_uptime{job=\"cockroachdb\",cluster=\"$cluster\"},instance)",
+        "definition": "label_values(sys_uptime{},instance)",
         "hide": 0,
         "includeAll": true,
         "label": "Node",
@@ -577,7 +577,7 @@
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(sys_uptime{job=\"cockroachdb\",cluster=\"$cluster\"},instance)",
+          "query": "label_values(sys_uptime{},instance)",
           "refId": "Prometheus-node-Variable-Query"
         },
         "refresh": 1,

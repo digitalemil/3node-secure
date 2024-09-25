@@ -79,7 +79,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "min(liveness_livenodes{cluster=\"$cluster\",job=\"cockroachdb\",instance=~\"$node\"})",
+          "expr": "min(liveness_livenodes{})",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Live Nodes",
@@ -171,7 +171,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(sys_rss{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"})",
+          "expr": "sum(sys_rss{})",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Total memory (RSS)",
@@ -182,7 +182,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(sys_cgo_allocbytes{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"})",
+          "expr": "sum(sys_cgo_allocbytes{})",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Go Allocated",
@@ -193,7 +193,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(sys_go_totalbytes{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"})",
+          "expr": "sum(sys_go_totalbytes{})",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Go Total",
@@ -204,7 +204,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(sys_go_allocbytes{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"})",
+          "expr": "sum(sys_go_allocbytes{})",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "CGo Allocated",
@@ -215,7 +215,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(sys_cgo_totalbytes{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"})",
+          "expr": "sum(sys_cgo_totalbytes{})",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "CGo Total",
@@ -307,7 +307,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(sys_goroutines{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"})",
+          "expr": "sum(sys_goroutines{})",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Goroutine Count",
@@ -399,7 +399,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sys_runnable_goroutines_per_cpu{job=\"cockroachdb\",cluster=~\"$cluster\",instance=~\"$node\"}",
+          "expr": "sys_runnable_goroutines_per_cpu{}",
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
@@ -490,7 +490,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(rate(sys_gc_count{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$rate_interval]))",
+          "expr": "sum(rate(sys_gc_count{}[$rate_interval]))",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "GC Runs",
@@ -582,7 +582,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(sys_gc_pause_ns{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$rate_interval]))",
+          "expr": "sum(rate(sys_gc_pause_ns{}[$rate_interval]))",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "GC Pause Time",
@@ -673,7 +673,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(sys_cpu_user_ns{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(sys_cpu_user_ns{}[$__rate_interval]))",
           "instant": false,
           "interval": "",
           "intervalFactor": 2,
@@ -686,7 +686,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum(rate(sys_cpu_sys_ns{job=\"cockroachdb\",cluster=\"$cluster\",instance=~\"$node\"}[$__rate_interval]))",
+          "expr": "sum(rate(sys_cpu_sys_ns{}[$__rate_interval]))",
           "instant": false,
           "interval": "",
           "intervalFactor": 2,
@@ -779,7 +779,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "clock_offset_meannanos{job=\"cockroachdb\",instance=~\"$node\",cluster=~\"$cluster\"}",
+          "expr": "clock_offset_meannanos{}",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{instance}}",
@@ -856,7 +856,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "sys_uptime{job=\"cockroachdb\"}",
+        "definition": "sys_uptime{}",
         "hide": 0,
         "includeAll": false,
         "label": "Cluster",
@@ -864,7 +864,7 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "sys_uptime{job=\"cockroachdb\"}",
+          "query": "sys_uptime{}",
           "refId": "Prometheus-cluster-Variable-Query"
         },
         "refresh": 1,
@@ -887,7 +887,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(sys_uptime{job=\"cockroachdb\",cluster=\"$cluster\"},instance)",
+        "definition": "label_values(sys_uptime{},instance)",
         "hide": 0,
         "includeAll": true,
         "label": "Node",
@@ -895,7 +895,7 @@
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(sys_uptime{job=\"cockroachdb\",cluster=\"$cluster\"},instance)",
+          "query": "label_values(sys_uptime{},instance)",
           "refId": "Prometheus-node-Variable-Query"
         },
         "refresh": 1,
