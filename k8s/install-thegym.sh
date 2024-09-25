@@ -16,6 +16,6 @@ kubectl -n $NAMESPACE create configmap sslrootcert --from-file ./cockroach/cockr
 
 envsubst < thegym.yaml | kubectl apply -n $NAMESPACE -f -
 
-kubectl wait --for=condition=ready pod -n $NAMESPACE -l component=appserver 
+kubectl wait --for=condition=ready pod -n $NAMESPACE -l component=appserver  --timeout=360s
 
-kubectl -n $NAMESPACE port-forward deployment/thegym 3031:3000 --timeout=360s
+kubectl -n $NAMESPACE port-forward deployment/thegym 3031:3000
