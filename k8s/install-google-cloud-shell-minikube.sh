@@ -20,7 +20,7 @@ kubectl apply -f https://raw.githubusercontent.com/cockroachdb/cockroach-operato
 
 echo Sleeping 60s...
 sleep 60
-kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator
+kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator  --timeout=120s
 
 #CRDB cluster
 kubectl create ns cockroachdb
@@ -29,7 +29,7 @@ sleep 20
 kubectl apply -f cockroachdb.yaml -n cockroachdb
 
 sleep 20
-kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-2
+kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-2  --timeout=120s
 
 sleep 1
 kubectl annotate -n cockroachdb pods cockroachdb-0 prometheus.io/scrape='true' prometheus.io/path='_status/vars' prometheus.io/port='8080'
@@ -39,7 +39,7 @@ kubectl annotate -n cockroachdb pods cockroachdb-2 prometheus.io/scrape='true' p
 
 kubectl create -n cockroachdb -f https://raw.githubusercontent.com/cockroachdb/cockroach-operator/master/examples/client-secure-operator.yaml
 
-kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-client-secure
+kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-client-secure  --timeout=120s
 
 echo Getting certificates. Storing them in cockroach folder
 kubectl exec -n "cockroachdb" "cockroachdb-client-secure" -- tar cf - "/cockroach/cockroach-certs" | tar xf - 
@@ -59,13 +59,14 @@ kubectl apply -n monitoring -f promtail.yaml
 
 echo Installing Prometheus:
 kubectl apply -n monitoring -f prometheus.yaml
-kubectl rollout status -w deployment -n monitoring prometheus-deployment --timeout=90s 
+kubectl rollout status -w deployment -n monitoring prometheus-deployment --timeout=120s 
 kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
 
 echo Installing Grafana:
 kubectl apply -f grafana.yaml --namespace=monitoring
 sleep 30
-kubectl wait --for=condition=ready pod -n monitoring -l app=grafana
+kubectl wait --for=condition=ready pod -n monitoring -l app=grafana --timeout=360s
+
 kubectl port-forward -n monitoring svc/grafana 3030:3000 &
 kubectl create configmap -n monitoring grafana-datasources --from-file=datasources.yaml 
 
