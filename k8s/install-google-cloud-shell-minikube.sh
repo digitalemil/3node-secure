@@ -82,6 +82,6 @@ kubectl wait --for=condition=ready pod -n monitoring -l app=grafana --timeout=36
 
 kubectl port-forward -n monitoring svc/grafana 3030:3000 &
 
-echo Scale: kubectl scale statefulsets -n cockroachdb cockroachdb --replicas=4
-
+echo Scale: Set the number of requires nodes in cockroachdb.yaml e.g. nodes: 4 and then run kubectl apply -n cockroachdb -f cockroachdb.yaml
+echo Or: kubectl scale statefulset cockroachdb -n cockroachdb --replicas=3
 kubectl port-forward -n cockroachdb svc/cockroachdb 18080:8080 

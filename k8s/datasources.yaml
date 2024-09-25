@@ -19,6 +19,18 @@ datasources:
     isDefault: false
     jsonData: {"connMaxLifetime":14400,"database":"defaultdb","maxIdleConns":100,"maxIdleConnsAuto":true,"maxOpenConns":100,"sslmode":"require"}
     editable: true
+  - name: CockroachDB-Flowers
+    type: grafana-postgresql-datasource
+    access: proxy
+    orgId: 1
+    uid: cockroachdb-flowers
+    url: cockroachdb-public.cockroachdb:26257
+    user: me
+    secureJsonData:
+      password: me
+    isDefault: false
+    jsonData: {"connMaxLifetime":14400,"database":"flowerdb","maxIdleConns":100,"maxIdleConnsAuto":true,"maxOpenConns":100,"sslmode":"require"}
+    editable: true
   - name: Loki
     type: loki
     access: proxy
