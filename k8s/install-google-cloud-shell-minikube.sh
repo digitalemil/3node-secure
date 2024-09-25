@@ -24,6 +24,7 @@ kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockr
 
 #CRDB cluster
 kubectl create ns cockroachdb
+kubectl apply -f cockroachdb.yaml -n cockroachdb
 sleep 20
 kubectl apply -f cockroachdb.yaml -n cockroachdb
 
@@ -50,15 +51,15 @@ echo Access sql shell in another shell:
 echo kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public
 
 echo Installing Loki \& Promtail:
+kubectl create ns monitoring
 helm repo add grafana  https://grafana.github.io/helm-charts
 helm repo update
 helm install -n monitoring --values loki.yaml loki grafana/loki
 kubectl apply -n monitoring -f promtail.yaml
 
 echo Installing Prometheus:
-kubectl create ns monitoring
 kubectl apply -n monitoring -f prometheus.yaml
-kubectl  rollout status -w deployment -n monitoring prometheus-deployment --timeout=90s 
+kubectl rollout status -w deployment -n monitoring prometheus-deployment --timeout=90s 
 kubectl port-forward -n monitoring svc/prometheus 9090:9091 &
 
 echo Installing Grafana:
