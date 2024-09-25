@@ -1,4 +1,79 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_COCKROACHDB",
+      "label": "CockroachDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-postgresql-datasource",
+      "pluginName": "PostgreSQL"
+    },
+    {
+      "name": "DS_LOKI",
+      "label": "Loki",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "geomap",
+      "name": "Geomap",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "11.2.0"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-postgresql-datasource",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "logs",
+      "name": "Logs",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -24,7 +99,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -35,7 +110,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 19,
+        "w": 4,
         "x": 0,
         "y": 0
       },
@@ -49,47 +124,331 @@
         "content": "<img src=\"https://storage.googleapis.com/thegym-public/thegym.jpg\"/>",
         "mode": "html"
       },
-      "pluginVersion": "10.3.1",
-      "title": "Loki Runs",
+      "pluginVersion": "11.2.0",
+      "title": "The Gym",
       "type": "text"
     },
     {
       "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_COCKROACHDB}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 5,
-        "x": 19,
+        "w": 9,
+        "x": 4,
         "y": 0
       },
-      "id": 20,
-      "links": [],
+      "id": 23,
       "options": {
-        "alertInstanceLabelFilter": "{app=\"thegym\"}",
-        "alertName": "LokiRuns",
-        "dashboardAlerts": false,
-        "groupBy": [],
-        "groupMode": "default",
-        "maxItems": 20,
-        "sortOrder": 1,
-        "stateFilter": {
-          "error": true,
-          "firing": true,
-          "noData": false,
-          "normal": false,
-          "pending": true
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
         },
-        "viewMode": "list"
+        "showHeader": true
       },
-      "title": "Alerts",
-      "type": "alertlist"
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_COCKROACHDB}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT distinct manufacturer, devicetype, deviceid, username FROM hrg LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "manufacturer",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "devicetype",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "deviceid",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "hrg"
+        }
+      ],
+      "title": "Device Metadata",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 13,
+        "y": 0
+      },
+      "id": 18,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "editorMode": "code",
+          "expr": "{app=~\".+\"} ",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs",
+      "type": "logs"
     },
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "cockroachdb"
+        "uid": "${DS_COCKROACHDB}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 50,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "super-light-green",
+                "value": null
+              },
+              {
+                "color": "light-green",
+                "value": 80
+              },
+              {
+                "color": "green",
+                "value": 90
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 120
+              },
+              {
+                "color": "dark-green",
+                "value": 130
+              },
+              {
+                "color": "super-light-red",
+                "value": 140
+              },
+              {
+                "color": "light-red",
+                "value": 150
+              },
+              {
+                "color": "red",
+                "value": 160
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 170
+              },
+              {
+                "color": "dark-red",
+                "value": 180
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_COCKROACHDB}"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroupAlias(\"id\",'2s'),\n  avg(\"hr\") AS \"HR\",\n  username\nFROM hrg\nWHERE $__timeFilter(\"id\")\nGROUP BY time, username\nORDER BY time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Heartrate over Time  (BPM)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)356d2b0e5b9c7ab52d5bb3bdb546923d0c659ea9(.*)",
+            "renamePattern": "$Assistant$2"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)d6c63a13eb58401eabb79e8dde531482bdc830ec(.*)",
+            "renamePattern": "$1Emil-965$2"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)99873e2b7f2e689c3cda6eac33c4f40a640ed71c(.*)",
+            "renamePattern": "$1Emil-Fenix5$2"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_COCKROACHDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -148,15 +507,14 @@
                 "value": 179.9997
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
+        "w": 11,
+        "x": 13,
         "y": 8
       },
       "id": 14,
@@ -243,12 +601,12 @@
           "zoom": 15
         }
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "cockroachdb"
+            "uid": "${DS_COCKROACHDB}"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -314,176 +672,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "cockroachdb"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 50,
-            "gradientMode": "scheme",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "super-light-green",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": 80
-              },
-              {
-                "color": "green",
-                "value": 90
-              },
-              {
-                "color": "semi-dark-green",
-                "value": 120
-              },
-              {
-                "color": "dark-green",
-                "value": 130
-              },
-              {
-                "color": "super-light-red",
-                "value": 140
-              },
-              {
-                "color": "light-red",
-                "value": 150
-              },
-              {
-                "color": "red",
-                "value": 160
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 170
-              },
-              {
-                "color": "dark-red",
-                "value": 180
-              }
-            ]
-          },
-          "unitScale": true
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 8
-      },
-      "id": 2,
-      "options": {
-        "legend": {
-          "calcs": [
-            "last"
-          ],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "cockroachdb"
-          },
-          "editorMode": "code",
-          "format": "time_series",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  $__timeGroupAlias(\"id\",'2s'),\n  avg(\"hr\") AS \"HR\",\n  username\nFROM hrg\nWHERE $__timeFilter(\"id\")\nGROUP BY time, username\nORDER BY time",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Heartrate over Time  (BPM)",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "(.*)356d2b0e5b9c7ab52d5bb3bdb546923d0c659ea9(.*)",
-            "renamePattern": "$Assistant$2"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "(.*)d6c63a13eb58401eabb79e8dde531482bdc830ec(.*)",
-            "renamePattern": "$1Emil-965$2"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "(.*)99873e2b7f2e689c3cda6eac33c4f40a640ed71c(.*)",
-            "renamePattern": "$1Emil-Fenix5$2"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "cockroachdb"
+        "uid": "${DS_COCKROACHDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -497,6 +686,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 50,
             "gradientMode": "hue",
@@ -535,14 +725,13 @@
                 "value": 10
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 9,
+        "w": 13,
         "x": 0,
         "y": 16
       },
@@ -563,7 +752,7 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "cockroachdb"
+            "uid": "${DS_COCKROACHDB}"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -618,7 +807,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "cockroachdb"
+        "uid": "${DS_COCKROACHDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -632,6 +821,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 50,
             "gradientMode": "hue",
@@ -670,15 +860,14 @@
                 "value": 10
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
+        "h": 9,
+        "w": 11,
+        "x": 13,
         "y": 16
       },
       "id": 22,
@@ -698,7 +887,7 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "cockroachdb"
+            "uid": "${DS_COCKROACHDB}"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -753,7 +942,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "cockroachdb"
+        "uid": "${DS_COCKROACHDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -804,16 +993,15 @@
                 "value": 180
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 7,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 25
       },
       "id": 16,
       "options": {
@@ -831,12 +1019,12 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "cockroachdb"
+            "uid": "${DS_COCKROACHDB}"
           },
           "editorMode": "code",
           "format": "time_series",
@@ -887,43 +1075,6 @@
         }
       ],
       "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "loki"
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 30
-      },
-      "id": 18,
-      "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": false,
-        "sortOrder": "Descending",
-        "wrapLogMessage": true
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "editorMode": "code",
-          "expr": "{app=~\".+\"} ",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Logs",
-      "type": "logs"
     }
   ],
   "refresh": "5s",
@@ -933,13 +1084,13 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
-    "to": "now+1h"
+    "from": "now-15m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "TheGym",
   "uid": "thegym",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
