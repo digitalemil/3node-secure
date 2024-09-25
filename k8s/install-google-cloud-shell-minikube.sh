@@ -18,10 +18,8 @@ kubectl apply -f https://raw.githubusercontent.com/cockroachdb/cockroach-operato
 #Operator
 kubectl apply -f https://raw.githubusercontent.com/cockroachdb/cockroach-operator/master/install/operator.yaml
 
-echo Sleeping 30s...
-sleep 30
-kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator
-kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator
+echo Sleeping 60s...
+sleep 60
 kubectl wait --for=condition=ready pod -n cockroach-operator-system -l app=cockroach-operator
 
 #CRDB cluster
@@ -31,8 +29,6 @@ kubectl apply -f cockroachdb.yaml -n cockroachdb
 
 sleep 20
 kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-2
-kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-1
-kubectl wait --for=condition=ready pod -n cockroachdb  cockroachdb-0
 
 sleep 1
 kubectl annotate -n cockroachdb pods cockroachdb-0 prometheus.io/scrape='true' prometheus.io/path='_status/vars' prometheus.io/port='8080'
@@ -53,7 +49,7 @@ kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --c
 echo Access sql shell in another shell:
 echo kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public
 
-echo Installing Loki & Promtail:
+echo Installing Loki \& Promtail:
 helm repo add grafana  https://grafana.github.io/helm-charts
 helm repo update
 helm install -n monitoring --values loki.yaml loki grafana/loki
