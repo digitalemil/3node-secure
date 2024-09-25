@@ -66,9 +66,9 @@ spec:
             - mountPath: /etc/grafana/provisioning/datasources
               name: grafana-datasources
               readOnly: false
-            - mountPath: /etc/grafana/provisioning/dashboards
+            - mountPath: /tmp/dashboards
               name: grafana-dashboards-definition
-            - mountPath: /var/lib/grafana/dashboards
+            - mountPath: /etc/grafana/provisioning/dashboards
               name: grafana-dashboards
               readOnly: false
       volumes:

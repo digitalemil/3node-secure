@@ -4,10 +4,10 @@ metadata:
   name: grafana-dashboards
   namespace: monitoring
 data:
-  dashboards.yaml: |-
+  default.yaml: |-
     apiVersion: 1
     providers: 
-      - name: 'Metrics'
+      - name: 'Default'
         updateIntervalSeconds: 10
         allowUiUpdates: true
         options:
