@@ -69,6 +69,7 @@ kubectl wait --for=condition=ready pod -n monitoring -l app=grafana --timeout=36
 
 kubectl port-forward -n monitoring svc/grafana 3030:3000 &
 kubectl create configmap -n monitoring grafana-datasources --from-file=datasources.yaml 
+kubectl create configmap -n monitoring grafana-dashboards --from-file=dashboards 
 
 echo Scale: kubectl scale statefulsets -n cockroachdb cockroachdb --replicas=4
 
