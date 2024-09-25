@@ -69,6 +69,7 @@ echo Installing Grafana:
 kubectl apply -f grafana.yaml --namespace=monitoring
 kubectl wait --for=condition=ready pod -n monitoring -l app=grafana
 kubectl port-forward -n monitoring svc/grafana 3030:3000 &
+kubectl create configmap -n monitoring grafana-datasources --from-file=datasources.yaml 
 
 echo Scale: kubectl scale statefulsets -n cockroachdb cockroachdb --replicas=4
 
