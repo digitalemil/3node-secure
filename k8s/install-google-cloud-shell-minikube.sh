@@ -1,4 +1,10 @@
 #!/bin/sh
+if [[ -z "${PASSWORD}" ]]; then
+  echo Please verify necessary environment variables a set \(SQL user \"me\" PASSWORD\).
+  exit -1
+fi
+
+
 echo Install for Google Cloud Shell
 export GRAFANA_PUBLICPORT=3333
 echo WEB_HOST: $WEB_HOST
@@ -45,7 +51,8 @@ echo Getting certificates. Storing them in cockroach folder
 kubectl exec -n "cockroachdb" "cockroachdb-client-secure" -- tar cf - "/cockroach/cockroach-certs" | tar xf - 
 
 echo Creating User me with password me:
-kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public -e "CREATE USER me WITH PASSWORD 'me';"
+kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public -e "CREATE USER me WITH PASSWORD '$PASSWORD';"
+kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public -e "GRANT ALL ON * TO me;"
 
 echo Access sql shell in another shell:
 echo kubectl exec -n cockroachdb -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach/cockroach-certs --host=cockroachdb-public
