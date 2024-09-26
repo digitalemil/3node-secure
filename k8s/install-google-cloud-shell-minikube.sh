@@ -68,6 +68,7 @@ echo Installing Prometheus:
 kubectl apply -n monitoring -f prometheus.yaml
 
 echo Installing Grafana:
+envsubst '${PASSWORD}' < ../datasources.yaml.template  >../datasources.yaml 
 kubectl create configmap -n monitoring grafana-datasources --from-file=datasources.yaml 
 kubectl create configmap -n monitoring grafana-dashboards-definition --from-file=dashboards 
 kubectl apply -n monitoring -f dashboards.yaml

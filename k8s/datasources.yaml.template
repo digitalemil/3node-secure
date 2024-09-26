@@ -15,7 +15,7 @@ datasources:
     url: cockroachdb-public.cockroachdb:26257
     user: me
     secureJsonData:
-      password: me
+      password: ${PASSWORD}
     isDefault: false
     jsonData: {"connMaxLifetime":14400,"database":"defaultdb","maxIdleConns":100,"maxIdleConnsAuto":true,"maxOpenConns":100,"sslmode":"require"}
     editable: true
@@ -27,7 +27,7 @@ datasources:
     url: cockroachdb-public.cockroachdb:26257
     user: me
     secureJsonData:
-      password: me
+      password: ${PASSWORD}
     isDefault: false
     jsonData: {"connMaxLifetime":14400,"database":"flowersdb","maxIdleConns":100,"maxIdleConnsAuto":true,"maxOpenConns":100,"sslmode":"require"}
     editable: true
