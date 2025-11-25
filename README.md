@@ -1,6 +1,8 @@
 # 3node-secure
 A script to install a secure CockroachDB cluster locally
 
+Was 3 nodes is 6 nodes now
+
 Two options available:
 * 3 Node cluster on one machine
     * App in docker can be installed
